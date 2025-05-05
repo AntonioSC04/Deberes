@@ -8,7 +8,7 @@ while True:
     user_action = input("Agrega un deber, editalo, completalo, visualizalo o sal del programa: ")
     
     if user_action.startswith("add"):
-            deber = user_action[4:] + "\n"
+            deber = user_action[4:].capitalize() + "\n"
             
             deberes = get_deberes() #Reemplazo el codigo de la lectura del archivo por el metodo get_deberes
                  

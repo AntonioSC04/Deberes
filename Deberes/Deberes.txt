@@ -1,10 +1,6 @@
-limpiar
-comer
-trapear
-cocinar
-trabajar
-comer
-lavar
-wash
-leer
-cocinar
+Estudiar CienciasLeer libro de filosofia
+Lavar los trastes
+Practicar python
+Hacer los registros
+Cocinar la cena
+Barrer mi cuarto

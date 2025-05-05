@@ -4,20 +4,40 @@ import FreeSimpleGUI as sg
 
 label = sg.Text("Escribe un deber: ")
 input = sg.InputText(tooltip="Ingresa un deber: ", key="deber")
-button = sg.Button("Agregar")
+add_button = sg.Button("Agregar")
+list_box = sg.Listbox(values=Funciones.get_deberes(), key="deberes", enable_events=True,
+                      size=(45, 10))
+edit_button = sg.Button("Editar")
 
-window = sg.Window('Mi App de Deberes', layout=[[label], [input, button]],
+window = sg.Window('Mi App de Deberes', layout=[[label], [input, add_button], [list_box, edit_button]],
                                              font=('Helvetica', 20))
 while True:
     event, values = window.read()
     print(event)
     print(values)
+    print(values["deberes"])
+
     match event:
         case "Agregar":
             deberes = Funciones.get_deberes()
-            nuevo_deber = values['deber'] + "\n"
+            nuevo_deber = values['deber'].capitalize() + "\n"
             deberes.append(nuevo_deber)
             Funciones.write_deberes(deberes)
+            window['deberes'].update(values=deberes)
+
+        case "Editar":
+            deber_a_editar = values['deberes'][0]
+            nuevo_deber = values['deber']
+
+            deberes = Funciones.get_deberes()
+            index = deberes.index(deber_a_editar)
+            deberes[index] = nuevo_deber
+            Funciones.write_deberes(deberes)
+            window['deberes'].update(values=deberes)
+
+        case "deberes":
+            window['deber'].update(value=values['deberes'][0])
+
         case sg.WIN_CLOSED:
             break
 
