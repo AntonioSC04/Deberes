@@ -6,3 +6,5 @@ trabajar
 comer
 lavar
 wash
+leer
+cocinar
