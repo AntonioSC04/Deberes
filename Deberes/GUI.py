@@ -1,7 +1,10 @@
 import Funciones
 import FreeSimpleGUI as sg
+import time
 
+sg.theme("DarkTeal11")
 
+clock = sg.Text('', key='clock')
 label = sg.Text("Escribe un deber: ")
 input = sg.InputText(tooltip="Ingresa un deber: ", key="deber")
 add_button = sg.Button("Agregar")
@@ -12,16 +15,15 @@ exit_button = sg.Button("Salir")
 
 complete_button = sg.Button("Completar")
 
-window = sg.Window('Mi App de Deberes', layout=[[label],
+window = sg.Window('Mi App de Deberes', layout=[[clock], [label],
                                                 [input, add_button],
                                                 [list_box, edit_button, complete_button],
                                                 [exit_button]],
                                              font=('Helvetica', 20))
 while True:
-    event, values = window.read()
-    print(event)
-    print(values)
-    print(values["deberes"])
+    event, values = window.read(timeout=200)
+    window['clock'].update(value=time.strftime("%B %d, %Y %H:%M:%S"))
+
 
     match event:
         case "Agregar":
@@ -33,22 +35,28 @@ while True:
             window['deber'].update(value='')
 
         case "Editar":
-            deber_a_editar = values['deberes'][0]
-            nuevo_deber = values['deber']
+            try:
+                deber_a_editar = values['deberes'][0]
+                nuevo_deber = values['deber']
 
-            deberes = Funciones.get_deberes()
-            index = deberes.index(deber_a_editar)
-            deberes[index] = nuevo_deber
-            Funciones.write_deberes(deberes)
-            window['deberes'].update(values=deberes)
+                deberes = Funciones.get_deberes()
+                index = deberes.index(deber_a_editar)
+                deberes[index] = nuevo_deber
+                Funciones.write_deberes(deberes)
+                window['deberes'].update(values=deberes)
+            except IndexError:
+                sg.popup('Selecciona un deber', font=('Helvetica', 20))
 
         case "Completar":
-            deber_completado = values['deberes'][0]
-            deberes = Funciones.get_deberes()
-            deberes.remove(deber_completado)
-            Funciones.write_deberes(deberes)
-            window['deberes'].update(values=deberes)
-            window['deber'].update(value='')
+            try:
+                deber_completado = values['deberes'][0]
+                deberes = Funciones.get_deberes()
+                deberes.remove(deber_completado)
+                Funciones.write_deberes(deberes)
+                window['deberes'].update(values=deberes)
+                window['deber'].update(value='')
+            except IndexError:
+                sg.popup('Selecciona un deber', font=('Helvetica', 20))
 
         case "Salir":
             break
