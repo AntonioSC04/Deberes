@@ -7,13 +7,13 @@ sg.theme("DarkTeal11")
 clock = sg.Text('', key='clock')
 label = sg.Text("Escribe un deber: ")
 input = sg.InputText(tooltip="Ingresa un deber: ", key="deber")
-add_button = sg.Button("Agregar")
+add_button = sg.Button(image_size=(60,36), image_source="Agregar.png", mouseover_colors="LightBlue2", tooltip="Ingresa un deber", key="Agregar")
 list_box = sg.Listbox(values=Funciones.get_deberes(), key="deberes", enable_events=True,
                       size=(45, 10))
 edit_button = sg.Button("Editar")
 exit_button = sg.Button("Salir")
 
-complete_button = sg.Button("Completar")
+complete_button = sg.Button(image_size=(60,52), image_source="Completar.png", mouseover_colors="LightBlue2", tooltip="Completa tu deber", key="Completar")
 
 window = sg.Window('Mi App de Deberes', layout=[[clock], [label],
                                                 [input, add_button],
@@ -45,7 +45,7 @@ while True:
                 Funciones.write_deberes(deberes)
                 window['deberes'].update(values=deberes)
             except IndexError:
-                sg.popup('Selecciona un deber', font=('Helvetica', 20))
+                sg.popup('Selecciona un deber', font=('Helvetica', 10))
 
         case "Completar":
             try:
@@ -56,7 +56,7 @@ while True:
                 window['deberes'].update(values=deberes)
                 window['deber'].update(value='')
             except IndexError:
-                sg.popup('Selecciona un deber', font=('Helvetica', 20))
+                sg.popup('Selecciona un deber', font=('Helvetica', 12))
 
         case "Salir":
             break
